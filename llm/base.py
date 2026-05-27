@@ -1,4 +1,5 @@
 from abc import ABC,abstractmethod
+from email.generator import Generator
 
 class BaseLLMProvider(ABC):
     """
@@ -19,4 +20,7 @@ class BaseLLMProvider(ABC):
         Returns:
             The LLM-generated response as plain text.
         """
+        pass
+    @abstractmethod
+    def stream_response(self, user_message: str, system_prompt: str | None = None,) -> Generator[str, None, None]:
         pass

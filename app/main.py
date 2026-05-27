@@ -1,15 +1,51 @@
 from config.settings import settings
+from llm.factory import get_llm_provider
+
+SYSTEM_PROMPT = """
+You are an AI Research Assistant Agent.
+Explain answers clearly, accurately, and in a beginner-friendly way.
+If you are unsure, say you are unsure instead of guessing.
+"""
+
 
 def main() -> None:
-    print("Application started successfully!")
-    print(f"App Name: {settings.app_name}")
-    print(f"App Environment: {settings.app_env}")
+    print("=" * 60)
+    print(settings.app_name)
+    print(f"Environment: {settings.app_env}")
+    print(f"Selected LLM Provider: {settings.llm_provider}")
+    print("=" * 60)
 
-    if settings.openai_api_key and settings.openai_api_key != "your_api_key_here":
-        print("Open API key loaded successfully! ")
-    else: 
-        print("Open API key not configured yet!")
+    llm = get_llm_provider()
 
+    print("Chatbot is ready! Type your message (or 'exit' to quit):")
+    print()
+
+    while True: 
+        user_message = input("You: ")
+
+        if user_message.lower().strip() in ["exit", "quit"]:
+            print("Assistant: Goodbye!")
+            break
+
+        if not user_message.strip():
+            print("Assistant: Please enter a valid message.")
+            continue
+        
+        try:
+            response = llm.generate_response(
+                user_message=user_message,
+                system_prompt=SYSTEM_PROMPT,
+            )
+
+            print()
+            print("Assistant:")
+            print(response)
+            print()
+
+        except Exception as error:
+            print()
+            print(f"Error: {error}")
+            print()
 
 if __name__ == "__main__":
     main()

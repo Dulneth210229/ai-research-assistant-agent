@@ -1,26 +1,30 @@
-from abc import ABC,abstractmethod
-from email.generator import Generator
+from __future__ import annotations
+
+from abc import ABC, abstractmethod
+from typing import Generator
+
 
 class BaseLLMProvider(ABC):
     """
-        Common interface for all LLM providers.
+    Common interface for all LLM providers.
 
-        Any LLM provider such as OpenAI, Ollama, Claude, Gemini, or Azure OpenAI
-        should follow this structure.
+    Every provider must support:
+    1. normal full response generation
+    2. streaming response generation
     """
+
     @abstractmethod
-    def generate_response(self, user_message: str, system_prompt: str | None = None) -> str:
-        """
-        Generate a response from the selected LLM.
-
-        Args:
-            user_message: The user's question or instruction.
-            system_prompt: Optional instruction that controls assistant behavior.
-
-        Returns:
-            The LLM-generated response as plain text.
-        """
+    def generate_response(
+        self,
+        user_message: str,
+        system_prompt: str | None = None,
+    ) -> str:
         pass
+
     @abstractmethod
-    def stream_response(self, user_message: str, system_prompt: str | None = None,) -> Generator[str, None, None]:
+    def stream_response(
+        self,
+        user_message: str,
+        system_prompt: str | None = None,
+    ) -> Generator[str, None, None]:
         pass

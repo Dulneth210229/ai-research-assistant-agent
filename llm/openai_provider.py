@@ -1,5 +1,5 @@
-from collections.abc import Generator
-
+from __future__ import annotations
+from typing import Generator
 from openai import OpenAI
 
 from config.settings import settings

@@ -18,6 +18,9 @@ class Settings(BaseModel):
 
     llm_temperature: float = float(os.getenv("LLM_TEMPERATURE", "0.5"))
 
+    embedding_provider: str = os.getenv("EMBEDDING_PROVIDER", "ollama").lower()
+    openai_embedding_model: str = os.getenv("OPENAI_EMBEDDING_MODEL","text-embedding-3-small")
+    ollama_embedding_model: str = os.getenv("OLLAMA_EMBEDDING_MODEL","nomic-embed-text")
 
 
 
